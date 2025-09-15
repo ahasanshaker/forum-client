@@ -8,8 +8,7 @@ import {
   getIdToken,
   updateProfile,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase/firebase.init";
-// import { auth, googleProvider } from "../firebase";
+import { auth, googleProvider } from "../firebase/firebase.init"; // Firebase config
 
 const AuthContext = createContext();
 
@@ -17,26 +16,44 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signUp = (email, password, displayName) =>
-    createUserWithEmailAndPassword(auth, email, password).then((res) =>
-      updateProfile(res.user, { displayName })
-    );
+  // Sign up with email, password, displayName
+  const signUp = async (email, password, displayName) => {
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (displayName) {
+      await updateProfile(res.user, { displayName });
+    }
+    return res.user;
+  };
 
-  const signIn = (email, password) => signInWithEmailAndPassword(auth, email, password);
+  // Sign in with email & password
+  const signIn = async (email, password) => {
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    return res.user;
+  };
 
-  const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
+  // Sign in with Google
+  const signInWithGoogle = async () => {
+    const res = await signInWithPopup(auth, googleProvider);
+    return res.user;
+  };
 
-  const logout = () => signOut(auth);
+  // Logout
+  const logout = async () => {
+    await signOut(auth);
+    setUser(null);
+    localStorage.removeItem("token");
+  };
 
+  // Listen for user auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const token = await getIdToken(currentUser);
-        localStorage.setItem("token", token); // server JWT later (if any) can replace/augment this
+        localStorage.setItem("token", token); // optional: for backend JWT later
         setUser(currentUser);
       } else {
-        localStorage.removeItem("token");
         setUser(null);
+        localStorage.removeItem("token");
       }
       setLoading(false);
     });
@@ -45,10 +62,20 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signUp,
+        signIn,
+        signInWithGoogle,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
+// Custom hook to use auth context
 export const useAuth = () => useContext(AuthContext);

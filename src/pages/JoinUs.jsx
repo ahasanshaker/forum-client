@@ -84,7 +84,7 @@ const JoinUs = () => {
               type="submit"
               className="btn w-full bg-indigo-600 text-white hover:bg-indigo-700 transition-all"
             >
-              Login / Register
+              Register
             </button>
           </form>
 
