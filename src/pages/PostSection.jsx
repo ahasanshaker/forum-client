@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const PostsSection = ({ posts }) => {
   const [sortByPopularity, setSortByPopularity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
 
-  // Sort posts by popularity
   const sortedPosts = sortByPopularity
     ? [...posts].sort((a, b) => (b.upVote - b.downVote) - (a.upVote - a.downVote))
     : posts;
 
-  // Pagination calculation
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -55,8 +54,12 @@ const PostsSection = ({ posts }) => {
                 <p className="text-xs text-gray-500">{post.time}</p>
               </div>
             </div>
-            <h4 className="text-lg font-bold mb-1">{post.title}</h4>
+
+            <h4 className="text-lg font-bold mb-1">
+              <Link to={`/post/${post.id}`}>{post.title}</Link>
+            </h4>
             <p className="text-gray-700 mb-2">{post.description}</p>
+
             <div className="flex flex-wrap gap-2 mb-2">
               {post.tags.map((tag, index) => (
                 <span
@@ -67,6 +70,7 @@ const PostsSection = ({ posts }) => {
                 </span>
               ))}
             </div>
+
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <span>👍 {post.upVote}</span>
               <span>👎 {post.downVote}</span>
@@ -76,7 +80,6 @@ const PostsSection = ({ posts }) => {
         ))}
       </motion.div>
 
-      {/* Pagination */}
       <div className="flex justify-center gap-2 mt-4">
         {Array.from({ length: totalPages }, (_, i) => (
           <button

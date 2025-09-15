@@ -6,12 +6,12 @@ import MainLayout from "../layouts/MainLayout";
 import Notification from "../pages/Notification";
 import Membership from "../pages/Membership";
 import Login from "../pages/Login";
-// import MainLayout from "../layouts/MainLayout";
+import PostDetails from "../pages/PostDetails";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: MainLayout,   // সব পেজের common layout
+    element: <MainLayout />, // use element for wrapper
     children: [
       {
         path: "/",
@@ -23,19 +23,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        Component: Dashboard,
+        element: <Dashboard />,
       },
       {
         path: "/notifications",
-        Component: Notification,
+        element: <Notification />,
       },
       {
         path: "/membership",
-        Component: Membership,
+        element: <Membership />,
       },
       {
         path: "/login",
-        Component: Login ,
+        element: <Login />,
+      },
+      {
+        path: "/post/:id",
+        element: <PostDetails />,
       },
     ],
   },

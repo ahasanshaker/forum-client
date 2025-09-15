@@ -3,6 +3,7 @@ import Banner from '../components/Banner';
 import TagsSection from '../components/TagSection';
 import AnnouncementSection from '../components/AnnouncementSection';
 import PostsSection from './PostSection';
+import PostDetails from './PostDetails';
 
 const Home = () => {
      const dummyTags = ["React", "Node", "MongoDB", "Express", "JavaScript"];
@@ -58,7 +59,7 @@ const Home = () => {
             <TagsSection tags={dummyTags} onTagClick={handleTagClick} ></TagsSection>
             <AnnouncementSection announcements={dummyAnnouncements}></AnnouncementSection>
             <PostsSection posts={dummyPosts}></PostsSection>
-
+           
         </div>
     );
 };
