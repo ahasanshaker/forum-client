@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import MainLayout from "../layouts/MainLayout";
 import Notification from "../pages/Notification";
 import Membership from "../pages/Membership";
+import Login from "../pages/Login";
 // import MainLayout from "../layouts/MainLayout";
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/membership",
         Component: Membership,
+      },
+      {
+        path: "/login",
+        Component: Login ,
       },
     ],
   },

@@ -1,34 +1,35 @@
 import React, { useState } from "react";
 import Lottie from "react-lottie-player";
 import { motion } from "framer-motion";
-import joinAnimation from "../assets/lottie/join.json"; 
+import joinAnimation from "../assets/lottie/join.json"; // তোমার লোটি JSON path
 import { useForm } from "react-hook-form";
-import { useAuth } from "../context/AuthContext"; // AuthContext আমাদের আগের code
-import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext"; // AuthContext তৈরি থাকতে হবে
+import { useNavigate, Link } from "react-router";
+import { FcGoogle } from "react-icons/fc";
 
 const JoinUs = () => {
-  const { signUp, signInWithGoogle } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { signUp, signInWithGoogle } = useAuth(); // AuthContext থেকে ফাংশন
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Email/Password signup
+  // Email/password login
   const onSubmit = async (data) => {
     setError("");
     try {
       await signUp(data.email, data.password, data.name);
-      navigate("/"); // Success redirect
+      navigate("/"); // login success → Home
     } catch (err) {
       setError(err.message);
     }
   };
 
   // Google login
-  const handleGoogleLogin = async () => {
+  const handleGoogle = async () => {
     setError("");
     try {
       await signInWithGoogle();
-      navigate("/"); // redirect to home
+      navigate("/"); // login success → Home
     } catch (err) {
       setError(err.message);
     }
@@ -42,7 +43,7 @@ const JoinUs = () => {
       transition={{ duration: 1 }}
     >
       <div className="grid md:grid-cols-2 gap-8 items-center max-w-6xl w-full">
-
+        
         {/* Left Side - Form */}
         <motion.div
           className="bg-white p-8 rounded-3xl shadow-2xl border border-indigo-100"
@@ -54,64 +55,71 @@ const JoinUs = () => {
             Join Us 🚀
           </h2>
 
-          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <input
+              {...register("name", { required: true })}
               type="text"
               placeholder="Full Name"
               className="input input-bordered w-full focus:ring-2 focus:ring-indigo-500"
-              {...register("name", { required: true })}
             />
             {errors.name && <p className="text-red-500 text-sm">Name is required</p>}
 
             <input
+              {...register("email", { required: true })}
               type="email"
               placeholder="Email"
               className="input input-bordered w-full focus:ring-2 focus:ring-indigo-500"
-              {...register("email", { required: true })}
             />
             {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
 
             <input
+              {...register("password", { required: true, minLength: 6 })}
               type="password"
               placeholder="Password"
               className="input input-bordered w-full focus:ring-2 focus:ring-indigo-500"
-              {...register("password", { required: true, minLength: 6 })}
             />
-            {errors.password && <p className="text-red-500 text-sm">Password min 6 chars</p>}
+            {errors.password && <p className="text-red-500 text-sm">Password min 6 characters</p>}
 
             <button
               type="submit"
               className="btn w-full bg-indigo-600 text-white hover:bg-indigo-700 transition-all"
             >
-              Sign Up
+              Login / Register
             </button>
           </form>
 
-          {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
-
-          <div className="divider">OR</div>
-
-          <button
-            onClick={handleGoogleLogin}
-            className="btn btn-outline w-full"
-          >
-            Continue with Google
-          </button>
-
+          {/* Already have an account - login link */}
           <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
-            <a href="/login" className="text-indigo-600 hover:underline">
+            <Link
+              to="/login"
+              className="btn btn-link text-indigo-600 hover:underline p-0"
+            >
               Login
-            </a>
+            </Link>
           </p>
+
+          {/* OR separator */}
+          <p className="text-center text-gray-500 mt-4">OR</p>
+
+          {/* Google Login */}
+          <button
+            onClick={handleGoogle}
+            className="btn btn-outline w-full mt-3 flex items-center justify-center gap-2"
+          >
+            <FcGoogle size={24} /> Continue with Google
+          </button>
+
+          {/* Show error */}
+          {error && <p className="text-sm mt-3 text-red-500 text-center">{error}</p>}
         </motion.div>
 
         {/* Right Side - Lottie Animation */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
           className="hidden md:flex justify-center"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
         >
           <Lottie
             loop
