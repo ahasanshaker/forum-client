@@ -13,10 +13,10 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gray-50">
       {/* Banner Section */}
       <motion.div
-        className="bg-white w-full shadow-md flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-12 rounded-b-3xl"
+        className="bg-white w-full shadow-md flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6  rounded-b-3xl"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
