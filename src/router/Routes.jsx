@@ -3,6 +3,8 @@ import Home from "../pages/Home";
 import JoinUs from "../pages/JoinUs";
 import Dashboard from "../pages/Dashboard";
 import MainLayout from "../layouts/MainLayout";
+import Notification from "../pages/Notification";
+import Membership from "../pages/Membership";
 // import MainLayout from "../layouts/MainLayout";
 
 const router = createBrowserRouter([
@@ -20,7 +22,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        Component: Dashboard,
+      },
+      {
+        path: "/notifications",
+        Component: Notification,
+      },
+      {
+        path: "/membership",
+        Component: Membership,
       },
     ],
   },
