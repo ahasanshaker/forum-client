@@ -7,6 +7,7 @@ import Notification from "../pages/Notification";
 import Membership from "../pages/Membership";
 import Login from "../pages/Login";
 import PostDetails from "../pages/PostDetails";
+import AddPost from "../pages/AddPost";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <PostDetails />,
+      },
+      {
+        path: "/add-post",
+        element: <AddPost></AddPost>,
       },
     ],
   },

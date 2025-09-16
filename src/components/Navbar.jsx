@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import { Home, Bell, Users } from "lucide-react";
+import { Home, Bell, Users, PlusSquare } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -64,6 +64,19 @@ const Navbar = () => {
             </Link>
           </li>
 
+          {/* 👉 Add Post button (only when logged in) */}
+          {user && (
+            <li>
+              <Link
+                to="/add-post"
+                className="flex items-center gap-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-lg hover:scale-105 transition-transform duration-300"
+              >
+                <PlusSquare className="w-5 h-5" />
+                <span className="hidden md:inline">Add Post</span>
+              </Link>
+            </li>
+          )}
+
           {/* Conditional Join Us / Logout */}
           {!user ? (
             <li>
@@ -76,10 +89,9 @@ const Navbar = () => {
             </li>
           ) : (
             <li className="flex items-center gap-2">
-              {/* User Photo and Logout button in the same line */}
               <div className="flex items-center gap-2">
                 <img
-                  src={user.photoURL }
+                  src={user.photoURL}
                   alt="profile"
                   className="w-8 h-8 rounded-full border-2 border-indigo-500"
                 />
