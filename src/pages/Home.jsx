@@ -57,7 +57,6 @@ const Home = () => {
     return (
         <div>
             <Banner></Banner>
-            <TagsSection tags={dummyTags} onTagClick={handleTagClick} ></TagsSection>
             <AnnouncementSection announcements={dummyAnnouncements}></AnnouncementSection>
             <PostsSection posts={dummyPosts}></PostsSection>
             <Footer></Footer>

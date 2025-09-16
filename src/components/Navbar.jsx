@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import { Home, Bell, Users, PlusSquare } from "lucide-react";
+import { Home, Bell, Users, PlusSquare, LayoutDashboard } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -36,6 +36,20 @@ const Navbar = () => {
               <span className="hidden md:inline">Home</span>
             </Link>
           </li>
+          {/* Dashboard */}
+         {/* Dashboard */}
+          {user && (
+            <li>
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-1 hover:text-indigo-500 transition-colors duration-300"
+              >
+                <LayoutDashboard className="w-5 h-5" />
+                <span className="hidden md:inline">Dashboard</span>
+              </Link>
+            </li>
+          )}
+
 
           {/* Membership */}
           <li>

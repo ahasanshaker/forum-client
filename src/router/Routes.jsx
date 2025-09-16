@@ -8,6 +8,7 @@ import Membership from "../pages/Membership";
 import Login from "../pages/Login";
 import PostDetails from "../pages/PostDetails";
 import AddPost from "../pages/AddPost";
+import PrivateRoute from "../components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <PrivateRoute>
+            <Dashboard />
+        </PrivateRoute>,
       },
       {
         path: "/notifications",
@@ -46,6 +49,7 @@ const router = createBrowserRouter([
         path: "/add-post",
         element: <AddPost></AddPost>,
       },
+    
     ],
   },
 ]);
