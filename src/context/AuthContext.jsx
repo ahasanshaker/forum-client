@@ -8,15 +8,17 @@ import {
   getIdToken,
   updateProfile,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase/firebase.init"; // Firebase config
+import { auth, googleProvider } from "../firebase/firebase.init"; // তোমার Firebase config import
 
+// Context create
 const AuthContext = createContext();
 
+// Provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Sign up with email, password, displayName
+  // ✅ Sign up with email + password + displayName
   const signUp = async (email, password, displayName) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     if (displayName) {
@@ -25,31 +27,32 @@ export const AuthProvider = ({ children }) => {
     return res.user;
   };
 
-  // Sign in with email & password
+  // ✅ Sign in (email + password)
   const signIn = async (email, password) => {
     const res = await signInWithEmailAndPassword(auth, email, password);
     return res.user;
   };
 
-  // Sign in with Google
+  // ✅ Sign in with Google
   const signInWithGoogle = async () => {
     const res = await signInWithPopup(auth, googleProvider);
     return res.user;
   };
 
-  // Logout
+  // ✅ Logout
   const logout = async () => {
     await signOut(auth);
     setUser(null);
     localStorage.removeItem("token");
   };
 
-  // Listen for user auth state changes
+  // ✅ Track user state (onAuthStateChanged)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        // Firebase থেকে JWT token আনা
         const token = await getIdToken(currentUser);
-        localStorage.setItem("token", token); // optional: for backend JWT later
+        localStorage.setItem("token", token);
         setUser(currentUser);
       } else {
         setUser(null);
@@ -61,6 +64,7 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // ✅ Provide value to whole app
   return (
     <AuthContext.Provider
       value={{
@@ -77,5 +81,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use auth context
+// ✅ Custom hook for consuming auth
 export const useAuth = () => useContext(AuthContext);
