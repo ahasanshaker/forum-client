@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
+    "@stripe/stripe-js": "^7.9.0",
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-query": "^5.87.4",
     "axios": "^1.12.2",
