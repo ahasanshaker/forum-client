@@ -16,7 +16,7 @@ const PostsSection = () => {
   const [commentText, setCommentText] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:3000/posts")
+    fetch("https://forum-server-gilt.vercel.app/posts")
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
@@ -44,7 +44,8 @@ const PostsSection = () => {
   // Vote function
   const handleVote = async (postId, type) => {
     if (!user) return alert("Login to vote");
-    const url = `http://localhost:3000/posts/${postId}/${type}vote`;
+    const url = `https://forum-server-gilt.vercel.app
+/posts/${postId}/${type}vote`;
     await fetch(url, { method: "PUT" });
     setPosts((prev) =>
       prev.map((post) =>
@@ -63,7 +64,8 @@ const PostsSection = () => {
     const text = commentText[postId];
     if (!text) return;
 
-    const res = await fetch(`http://localhost:3000/posts/${postId}/comment`, {
+    const res = await fetch(`https://forum-server-gilt.vercel.app
+/posts/${postId}/comment`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

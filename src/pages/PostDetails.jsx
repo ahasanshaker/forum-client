@@ -9,7 +9,8 @@ const PostDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/posts/${id}`)
+    fetch(`https://forum-server-gilt.vercel.app
+/posts/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setPost(data);

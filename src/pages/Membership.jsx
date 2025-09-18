@@ -14,7 +14,8 @@ const Membership = () => {
     const email = query.get("email");
 
     if (success && email) {
-      fetch(`http://localhost:3000/users/${email}/upgrade`, { method: "PUT" })
+      fetch(`https://forum-server-gilt.vercel.app
+/users/${email}/upgrade`, { method: "PUT" })
         .then((res) => res.json())
         .then(() => {
           alert("✅ Payment successful! Membership upgraded 🎉");
@@ -26,7 +27,7 @@ const Membership = () => {
   const handleUpgrade = async () => {
     if (!user) return alert("⚠️ Please login first!");
     try {
-      const res = await fetch("http://localhost:3000/create-checkout-session", {
+      const res = await fetch("https://forum-server-gilt.vercel.app/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: user.email }),

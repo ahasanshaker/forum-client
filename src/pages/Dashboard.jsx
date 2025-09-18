@@ -14,7 +14,7 @@ const Dashboard = () => {
 
     const fetchPosts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/posts");
+        const res = await fetch("https://forum-server-gilt.vercel.app/posts");
         const data = await res.json();
 
         // safer: match by email (unique)
@@ -36,7 +36,8 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
-      const res = await fetch(`http://localhost:3000/posts/${id}`, {
+      const res = await fetch(`https://forum-server-gilt.vercel.app
+/posts/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {

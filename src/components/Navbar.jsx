@@ -1,15 +1,34 @@
 import { Link, useNavigate } from "react-router";
 import { Home, Bell, Users, PlusSquare, LayoutDashboard } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const handleLogout = async () => {
     await logout();
     navigate("/");
   };
+
+  // ✅ Fetch unread notifications
+  useEffect(() => {
+    const fetchUnread = async () => {
+      if (!user) return;
+      try {
+        const res = await fetch(`https://forum-server-gilt.vercel.app
+/notifications/${user.email}`);
+        const data = await res.json();
+        setUnreadCount(data.unreadCount);
+      } catch (err) {
+        console.error("Failed to fetch notifications:", err);
+      }
+    };
+
+    fetchUnread();
+  }, [user]);
 
   return (
     <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
@@ -26,37 +45,24 @@ const Navbar = () => {
       {/* Menu items */}
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1 gap-3 items-center">
-          {/* Home */}
           <li>
-            <Link
-              to="/"
-              className="flex items-center gap-1 hover:text-blue-500 transition-colors duration-300"
-            >
+            <Link to="/" className="flex items-center gap-1 hover:text-blue-500 transition-colors duration-300">
               <Home className="w-5 h-5" />
               <span className="hidden md:inline">Home</span>
             </Link>
           </li>
-          {/* Dashboard */}
-         {/* Dashboard */}
+
           {user && (
             <li>
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-1 hover:text-indigo-500 transition-colors duration-300"
-              >
+              <Link to="/dashboard" className="flex items-center gap-1 hover:text-indigo-500 transition-colors duration-300">
                 <LayoutDashboard className="w-5 h-5" />
                 <span className="hidden md:inline">Dashboard</span>
               </Link>
             </li>
           )}
 
-
-          {/* Membership */}
           <li>
-            <Link
-              to="/membership"
-              className="flex items-center gap-1 hover:text-purple-500 transition-colors duration-300"
-            >
+            <Link to="/membership" className="flex items-center gap-1 hover:text-purple-500 transition-colors duration-300">
               <Users className="w-5 h-5" />
               <span className="hidden md:inline">Membership</span>
             </Link>
@@ -64,34 +70,26 @@ const Navbar = () => {
 
           {/* Notification */}
           <li>
-            <Link
-              to="/notifications"
-              className="flex items-center gap-1 hover:text-rose-500 transition-colors duration-300 relative"
-            >
+            <Link to="/notifications" className="flex items-center gap-1 hover:text-rose-500 relative">
               <Bell className="w-5 h-5" />
               <span className="hidden md:inline">Notification</span>
-              {user && (
+              {user && unreadCount > 0 && (
                 <span className="badge badge-error badge-sm absolute -top-1 -right-2 animate-bounce">
-                  3
+                  {unreadCount}
                 </span>
               )}
             </Link>
           </li>
 
-          {/* 👉 Add Post button (only when logged in) */}
           {user && (
             <li>
-              <Link
-                to="/add-post"
-                className="flex items-center gap-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-lg hover:scale-105 transition-transform duration-300"
-              >
+              <Link to="/add-post" className="flex items-center gap-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-lg hover:scale-105 transition-transform duration-300">
                 <PlusSquare className="w-5 h-5" />
                 <span className="hidden md:inline">Add Post</span>
               </Link>
             </li>
           )}
 
-          {/* Conditional Join Us / Logout */}
           {!user ? (
             <li>
               <Link
